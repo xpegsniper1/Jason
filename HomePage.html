@@ -100,7 +100,7 @@
 				}
 				
 				function PostLocation(){
-					navigator.geolocation.getCurrentPosition(GetLocationSuccess, GetLocationError);
+					navigator.geolocation.getCurrentPosition(GetLocationSuccess, GetLocationError);					
 				}
 				
 				function GetLocationSuccess(position) {							
@@ -122,6 +122,19 @@
 				function LogOut(){
 					localStorage.clear();
 					$.mobile.changePage("index.html");
+				}
+				
+				function TestNotification(){
+					window.plugin.notification.local.add({ message: 'Test notification!' });
+					var now = new Date().getTime(), _10_seconds_from_now = new Date(now + 10*1000);
+
+					window.plugin.notification.local.add({
+						id:      1,
+						title:   'Reminder',
+						message: 'Testing reminder.',
+						//repeat:  'weekly',
+						date:    _10_seconds_from_now
+					});
 				}
 			</script>
 		</div><!-- /page -->			
