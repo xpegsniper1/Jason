@@ -58,8 +58,7 @@
 				
 				function LoginSucccess(driverObject){
 					console.log('successfully logged in');
-					localStorage.setItem("DriverId", 1);
-					//localStorage.setItem("DriverId", driverObject.DriverId);
+					localStorage.setItem("DriverId", driverObject.DriverId);
 					localStorage.setItem("DriverStatusId", 12);
 					$.mobile.changePage("HomePage.html", {transition: "slidedown"});
 				}
