@@ -1,0 +1,58 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Standard Express</title>
+    <link rel="stylesheet" href="jquery.mobile-1.4.5.css" />
+		<script src="jquery-1.11.2.js"></script>
+		<script src="jquery.mobile-1.4.5.js"></script>
+</head>
+
+<body>
+
+    <div data-role="page">
+
+        <div data-role="header" data-add-back-btn="true">
+            <h1>StandardEx</h1>
+
+                <a href="tel:4143890000" class="ui-btn-right ui-btn ui-btn-inline ui-mini ui-corner-all ui-btn-icon-right ui-icon-action">Call Dispatch</a>
+            </div><!-- /header -->
+
+        <div role="main" class="ui-content">
+            <form>
+                <input id="filter-for-listview" placeholder="Type to search..." data-type="search">
+            </form>
+            <ul data-role="listview" data-inset="true" data-input="#filter-for-listview" data-filter="true">
+                <li class="ui-field-contain"><label for="0">Round Trip</label><input id="0" type="checkbox" /></li>
+                <li data-role="list-divider">Pickup</li>
+                <li class="ui-field-contain"><label for="1">Open Time</label><label id="1">2:19 PM</label></li>
+                <li class="ui-field-contain"><label for="1">Close Time</label><label id="1">2:30 PM</label></li>
+                <li class="ui-field-contain"><label for="3">Pickup At</label><label id="3">Standard Express Terminal<br />
+2727 S. 11th St.<br />
+Milwaukee WI 53215</label></li>
+                <li class="ui-field-contain"><label for="4">Contact</label><label id="4"></label></li>
+                <li data-role="list-divider">Delivery</li>
+                <li class="ui-field-contain"><label for="2">Open Time</label><label id="2">3:49 PM</label></li>
+                <li class="ui-field-contain"><label for="2a">Close Time</label><label id="2a">4:15 PM</label></li>
+                <li class="ui-field-contain"><label for="5">Deliver To</label><label id="5">Standard Express Terminal<br />
+2727 S. 11th St.<br />
+Milwaukee WI 53215</label></li>
+                <li class="ui-field-contain"><label for="6">Contact</label><label id="6"></label></li>
+                <li class="ui-field-contain"><label for="7">Pieces</label><label id="7">1</label></li>
+                <li class="ui-field-contain"><label for="8">Weight</label><label id="8">1</label></li>
+                <li class="ui-field-contain"><label for="9">Instructions</label><label id="9"><br /><br /><br /><br /></label></li>
+            </ul>
+
+            <a href="Delivery2Confirm.html" data-role="button">Pick-Up</a>
+</div><!-- /content -->
+
+        <div data-role="footer">
+            <h4></h4>
+        </div><!-- /footer -->
+
+    </div><!-- /page -->
+
+</body>
+</html>

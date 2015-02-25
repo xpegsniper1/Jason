@@ -1,0 +1,151 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="msapplication-tap-highlight" content="no" />
+        <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+        <link rel="stylesheet" type="text/css" href="css/index.css" />
+		<!--<script type="text/javascript" src="cordova.js"></script>-->
+			<script type="text/javascript" src="js/index.js"></script>
+		<link rel="stylesheet" href="jquery.mobile-1.4.5.css" />
+		<script src="jquery-1.11.2.js"></script>
+		<script src="jquery.mobile-1.4.5.js"></script>
+        <title>Jobs</title>
+    </head>
+    <body>
+		<div data-role="page">
+			<div data-role="header">
+				<h1>Jobs</h1>
+			</div><!-- /header -->
+
+			<div role="main" class="ui-content">
+		   
+				<form>
+					<input id="filter-for-listview" placeholder="Type to search..." data-type="search">
+				</form>
+				<ul id="listOfJobs" data-role="listview" data-inset="true" data-input="#filter-for-listview" data-filter="true">
+					<!--<li><a href="Delivery.html">Delivery 1</a></li>
+					<li><a href="Delivery2.html">Delivery 2</a></li>-->
+				</ul>
+				
+				<a href="" data-role="button" data-mini="true" onclick="SetStatus();">Set Status</a>
+				 <select id="number" name="value you need">
+					<option value="moving" selected="selected">Moving</option>  					
+					<option value="moving" selected="selected">Stopped</option>  
+					<option value="moving" selected="selected">Stuff</option>  
+					<option value="moving" selected="selected">Things</option>  
+					</select>
+				<hr />
+				<br /><br /><br />
+				<a href="" data-role="button" data-mini="true" onclick="GetLocation();">Send Location</a>
+				<div id="geolocation"></div>
+			</div><!-- /content -->
+
+			<!--<div data-role="footer">
+			</div> /footer -->
+
+		</div><!-- /page -->			
+    </body>
+	<script type="text/javascript">
+				app.initialize();
+				document.addEventListener("deviceready", onDeviceReady, false);
+
+				
+				
+				//onDeviceReady();
+				//GetAvailableJobs();
+				var logout = document.getElementById('geolocation');
+
+				function onDeviceReady() {
+					window.plugin.notification.local.add({ message: 'Great app!' });
+					// Throw an error if no update is received every 30 seconds
+					var options = { timeout: 30000, enableHighAccuracy:true };
+					
+					watchID = navigator.geolocation.watchPosition(onSuccessWatch, onErrorWatch, options);
+				}
+
+				// onSuccess Geolocation
+				//
+				function onSuccessWatch(position) {
+					var element = document.getElementById('geolocation');
+					PostLocation(position.coords.latitude,position.coords.longitude);
+					logout += 'Latitude: '  + position.coords.latitude      + '<br />' +
+										'Longitude: ' + position.coords.longitude     + '<br />' +
+										'<hr />'      + element.innerHTML;
+				}
+
+					// onError Callback receives a PositionError object
+					//
+					function onErrorWatch(error) {
+						alert('code: '    + error.code    + '\n' +
+							  'message: ' + error.message + '\n');
+					}
+				
+				function PostLocation(la,lo){
+				var x = 1;
+						$.ajax({
+						  type: "POST",
+						  url: "http://standardexpress.azurewebsites.net/api/MobileLocation",
+						  data: {lat:la, lon:lo, driverId:123456},
+						  success:logout += 'successfully posted to server from watch',
+						  fail: logout += 'error posting to server from watch'
+						});	
+				}
+				
+				function GetAvailableJobs(){
+					$.ajax({
+						  type: "GET",
+						  url: "http://standardexpress.azurewebsites.net/api/MobileDriverStatus",						  
+						  success: function(data){
+												//alert('Got Jobs');
+												for(i = 0; i<data.length;i++){													
+													var htmlToAppend = "<li><a href='Delivery.html'>Delivery " + (i + 1) +"</a></li>";													
+													$('#listOfJobs').append(htmlToAppend);
+													$('#listOfJobs').listview('refresh');
+												}
+											},
+						  fail: function(){alert('error getting jobs from server')}
+					});	
+				}
+				function SetStatus(){
+						$.ajax({
+						  type: "POST",
+						  url: "http://standardexpress.azurewebsites.net/api/MobileLocation",
+						  data: {lat:position.coords.latitude, lon:position.coords.longitude, driverId:123456},
+						  success: alert('successfully posted to server'),
+						  fail: alert('error posting to server')
+						});	
+				}
+				
+	</script>
+	<script>
+		function GetLocation(){
+			 navigator.geolocation.getCurrentPosition(onSuccess, onError);
+		}
+		function onSuccess(position) {
+			var element = document.getElementById('geolocation');
+			element.innerHTML = 'Latitude: '           + position.coords.latitude              + '<br />' +
+								'Longitude: '          + position.coords.longitude             + '<br />' +
+								'Altitude: '           + position.coords.altitude              + '<br />' +
+								'Accuracy: '           + position.coords.accuracy              + '<br />' +
+								'Altitude Accuracy: '  + position.coords.altitudeAccuracy      + '<br />' +
+								'Heading: '            + position.coords.heading               + '<br />' +
+								'Speed: '              + position.coords.speed                 + '<br />' +
+								'Timestamp: '          + position.timestamp                    + '<br />';							
+			
+			$.ajax({
+			  type: "POST",
+			  url: "http://standardexpress.azurewebsites.net/api/MobileLocation",
+			  data: {lat:position.coords.latitude, lon:position.coords.longitude, driverId:123456},
+			  success: alert('successfully posted to server'),
+			  fail: alert('error posting to server')
+			});	
+    }
+    function onError(error) {
+        alert('code: '    + error.code    + '\n' +
+              'message: ' + error.message + '\n');
+    }
+	</script>
+</html>
