@@ -33,9 +33,9 @@
 				<hr />							
 				<select id="driverStatusList" name="value you need">
 					<option value="11">Moving</option>  					
-					<option value="12" selected="selected">Stopped</option>  
-					<option value="13">Leaving Terminal</option>  
-					<option value="14">Arriving at Terminal</option>  
+					<option value="12" selected="selected">Stopped</option>
+					<option value="13">Leaving Terminal</option>					
+					<option value="14">Arriving at Terminal</option> 					  					
 				</select>
 					
 				<a href="" data-role="button" onclick="SetStatus();">Set Status</a>			
@@ -90,9 +90,15 @@
 						type: "POST",
 						url: "http://standardexpress.azurewebsites.net/api/MobileDriverStatus",
 						data: {StatusId:localStorage.getItem("DriverStatusId"), driverId:localStorage.getItem("DriverId")},
-						success: function(){alert('successfully posted to server')},
-						fail: function(){alert('error posting to server')}
+						success: function(){console.log('Updated Status')},
+						fail: function(){alert('error updating status')}
 					});	
+					
+					if($('#driverStatusList').val() == 13){
+						$.mobile.changePage("LeavingTerminalPage.html", { transition: "slidedown", });
+					}else if($('#driverStatusList').val() == 14){
+						$.mobile.changePage("ReturnToBasePage.html", { transition: "slidedown", });
+					}
 					
 					//If the statusid is 13 or 14 it goes to other pages however if it is anything else you only need to post DriverId and StatusId
 				}
@@ -106,7 +112,7 @@
 						type: "POST",
 						url: "http://standardexpress.azurewebsites.net/api/MobileLocation",
 						data: {lat:position.coords.latitude, lon:position.coords.longitude, driverId:localStorage.getItem("DriverId")},
-						success: function(){console.log('successfully posted to server from PostLocation');alert('successfully sent location');},
+						success: function(){console.log('successfully posted to server from PostLocation');},
 						fail: function(){console.log('error posting from PostLocation');alert('error sending location');}
 					});		
 				}
@@ -119,10 +125,9 @@
 				
 				function LogOut(){
 					localStorage.clear();
-					$.mobile.changePage("index.html", { transition: "slidedown", });
+					$.mobile.changePage("index.html");
 				}
 			</script>
-
 		</div><!-- /page -->			
     </body>	
 </html>

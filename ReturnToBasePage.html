@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="msapplication-tap-highlight" content="no" />
+        <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+        <link rel="stylesheet" type="text/css" href="css/index.css" />
+			<script type="text/javascript" src="js/index.js"></script>
+		<link rel="stylesheet" href="jquery.mobile-1.4.5.css" />
+		<script type="text/javascript" src="jquery-1.11.2.js"></script>
+		<script type="text/javascript" src="jquery.mobile-1.4.5.js"></script>
+        <title>Returning</title>
+    </head>
+    <body>
+		<div data-role="page">
+			<div data-role="header" data-add-back-btn="true">
+            <h1>Returning</h1>			
+                <a href="tel:4143890000" class="ui-btn-right ui-btn ui-btn-inline ui-mini ui-corner-all ui-btn-icon-right ui-icon-action">Call Dispatch</a>
+            </div><!-- /header -->
+			
+			<div role="main" class="ui-content">
+				<h2>Return to base</h2>
+				<span>Please sign your name</span>
+				
+				<h2>Ending Milage</h2>
+				<input type="number" />
+				<a href="" data-role="button" onclick="SubmitReturningInfo();">Submit</a>
+			</div><!-- /content -->
+
+			<!--<div data-role="footer">
+			</div> /footer -->
+			<script type="text/javascript">
+			function SubmitReturningInfo(){
+				$.mobile.changePage("HomePage.html");
+			}
+			</script>
+		</div><!-- /page -->			
+    </body>	
+</html>
