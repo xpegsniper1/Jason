@@ -105,7 +105,7 @@
 					$.ajax({
 						type: "POST",
 						url: "http://standardexpress.azurewebsites.net/api/MobileLocation",
-						data: {lat:position.coords.latitude, lon:position.coords.longitude, driverId:driverId:localStorage.getItem("DriverId")},
+						data: {lat:position.coords.latitude, lon:position.coords.longitude, driverId:localStorage.getItem("DriverId")},
 						success: function(){console.log('successfully posted to server from PostLocation');alert('successfully sent location');},
 						fail: function(){console.log('error posting from PostLocation');alert('error sending location');}
 					});		
