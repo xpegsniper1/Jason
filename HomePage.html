@@ -53,10 +53,6 @@
 					PostLocation();
 					SetSelectedDriverStatus();
 					//window.plugin.notification.local.add({ message: 'Great app!' });
-					// Throw an error if no update is received every 30 seconds
-					//var options = { timeout: 30000, enableHighAccuracy:true };
-					
-					//watchID = navigator.geolocation.watchPosition(onSuccessWatch, onErrorWatch, options);
 				}
 				
 				function SetSelectedDriverStatus(){
@@ -90,17 +86,17 @@
 						type: "POST",
 						url: "http://standardexpress.azurewebsites.net/api/MobileDriverStatus",
 						data: {StatusId:localStorage.getItem("DriverStatusId"), driverId:localStorage.getItem("DriverId")},
-						success: function(){console.log('Updated Status')},
+						success: function(){
+										console.log('Updated Status');
+										//If the statusid is 13 or 14 it goes to other pages however if it is anything else you only need to post DriverId and StatusId
+										if($('#driverStatusList').val() == 13){
+											$.mobile.changePage("LeavingTerminalPage.html", { transition: "slidedown", });
+										}else if($('#driverStatusList').val() == 14){
+											$.mobile.changePage("ReturnToBasePage.html", { transition: "slidedown", });
+										}	
+									},
 						fail: function(){alert('error updating status')}
-					});	
-					
-					if($('#driverStatusList').val() == 13){
-						$.mobile.changePage("LeavingTerminalPage.html", { transition: "slidedown", });
-					}else if($('#driverStatusList').val() == 14){
-						$.mobile.changePage("ReturnToBasePage.html", { transition: "slidedown", });
-					}
-					
-					//If the statusid is 13 or 14 it goes to other pages however if it is anything else you only need to post DriverId and StatusId
+					});																	
 				}
 				
 				function PostLocation(){
