@@ -31,11 +31,11 @@
 					<li><a href="Delivery2.html">Delivery 2</a></li>-->
 				</ul>				
 				<hr />							
-				<select id="number" name="value you need">
-					<option value="moving" selected="selected">Moving</option>  					
-					<option value="moving" selected="selected">Stopped</option>  
-					<option value="moving" selected="selected">Stuff</option>  
-					<option value="moving" selected="selected">Things</option>  
+				<select id="driverStatusList" name="value you need">
+					<option value="11">Moving</option>  					
+					<option value="12" selected="selected">Stopped</option>  
+					<option value="13">Leaving Terminal</option>  
+					<option value="14">Arriving at Terminal</option>  
 				</select>
 					
 				<a href="" data-role="button" onclick="SetStatus();">Set Status</a>			
@@ -44,76 +44,85 @@
 
 			<!--<div data-role="footer">
 			</div> /footer -->
+			<script type="text/javascript">				
+				//document.addEventListener("deviceready", onDeviceReady, false);				
+				onDeviceReady();
+
+				function onDeviceReady() {
+					GetAvailableJobs();
+					PostLocation();
+					SetSelectedDriverStatus();
+					//window.plugin.notification.local.add({ message: 'Great app!' });
+					// Throw an error if no update is received every 30 seconds
+					//var options = { timeout: 30000, enableHighAccuracy:true };
+					
+					//watchID = navigator.geolocation.watchPosition(onSuccessWatch, onErrorWatch, options);
+				}
+				
+				function SetSelectedDriverStatus(){
+					$('#driverStatusList').val(localStorage.getItem("DriverStatusId"));
+				}
+				
+				function GetAvailableJobs(){
+					$.ajax({
+							type: "GET",
+							url: "http://standardexpress.azurewebsites.net/api/MobileLoad/" + localStorage.getItem("DriverId"),					
+							success: function(data){
+												console.log('Got Jobs');
+												for(i = 0; i<data.length;i++){											
+													var currentLoad = data[i];
+													var htmlToAppend = "<li><a href='Delivery.html'>";
+													htmlToAppend += "<p class='ui-li-aside ui-li-desc'>" + currentLoad.StatusName + "</p>";
+													htmlToAppend += "<h2 class='ui-li-heading'>Load#: " + currentLoad.OrderId + " - " + currentLoad.ShipCo + "</h2>"
+													htmlToAppend += "</a></li>";													
+													$('#listOfJobs').append(htmlToAppend);
+													$('#listOfJobs').listview('refresh');
+												}
+											},
+							fail: function(){alert('error getting jobs from server')}
+					});	
+				}
+				
+				function SetStatus(){
+					localStorage.setItem("DriverStatusId", $('#driverStatusList').val());
+						
+					$.ajax({
+						type: "POST",
+						url: "http://standardexpress.azurewebsites.net/api/MobileDriverStatus",
+						data: {StatusId:localStorage.getItem("DriverStatusId"), driverId:localStorage.getItem("DriverId")},
+						success: function(){alert('successfully posted to server')},
+						fail: function(){alert('error posting to server')}
+					});	
+					
+					//If the statusid is 13 or 14 it goes to other pages however if it is anything else you only need to post DriverId and StatusId
+				}
+				
+				function PostLocation(){
+					navigator.geolocation.getCurrentPosition(GetLocationSuccess, GetLocationError);
+				}
+				
+				function GetLocationSuccess(position) {							
+					$.ajax({
+						type: "POST",
+						url: "http://standardexpress.azurewebsites.net/api/MobileLocation",
+						data: {lat:position.coords.latitude, lon:position.coords.longitude, driverId:driverId:localStorage.getItem("DriverId")},
+						success: function(){console.log('successfully posted to server from PostLocation');alert('successfully sent location');},
+						fail: function(){console.log('error posting from PostLocation');alert('error sending location');}
+					});		
+				}
+				
+				function GetLocationError(error) {
+					alert('code: '    + error.code    + '\n' +
+						  'message: ' + error.message + '\n');
+						  return "error sdf ssdf sdf sd";
+				}
+				
+				function LogOut(){
+					localStorage.clear();
+					$.mobile.changePage("index.html", { transition: "slidedown", });
+				}
+			</script>
 
 		</div><!-- /page -->			
-    </body>
-	<script type="text/javascript">				
-		//document.addEventListener("deviceready", onDeviceReady, false);				
-		onDeviceReady();
-
-		function onDeviceReady() {
-			GetAvailableJobs();
-			PostLocation
-			//window.plugin.notification.local.add({ message: 'Great app!' });
-			// Throw an error if no update is received every 30 seconds
-			//var options = { timeout: 30000, enableHighAccuracy:true };
-			
-			//watchID = navigator.geolocation.watchPosition(onSuccessWatch, onErrorWatch, options);
-		}
-		
-		function GetAvailableJobs(){
-			$.ajax({
-					type: "GET",
-					url: "http://standardexpress.azurewebsites.net/api/MobileLoad/" + localStorage.getItem("DriverId"),					
-					success: function(data){
-										console.log('Got Jobs');
-										for(i = 0; i<data.length;i++){											
-											var currentLoad = data[i];
-											var htmlToAppend = "<li><a href='Delivery.html'>";
-											htmlToAppend += "<p class='ui-li-aside ui-li-desc'>" + currentLoad.StatusName + "</p>";
-											htmlToAppend += "<h2 class='ui-li-heading'>Load#: " + currentLoad.OrderId + " - " + currentLoad.ShipCo + "</h2>"
-											htmlToAppend += "</a></li>";													
-											$('#listOfJobs').append(htmlToAppend);
-											$('#listOfJobs').listview('refresh');
-										}
-									},
-					fail: function(){alert('error getting jobs from server')}
-			});	
-		}
-		
-		function SetStatus(){
-				$.ajax({
-				  type: "POST",
-				  url: "http://standardexpress.azurewebsites.net/api/MobileLocation",
-				  data: {lat:position.coords.latitude, lon:position.coords.longitude, driverId:123456},
-				  success: alert('successfully posted to server'),
-				  fail: alert('error posting to server')
-				});	
-		}
-		
-		function PostLocation(){
-			navigator.geolocation.getCurrentPosition(GetLocationSuccess, GetLocationError);
-		}
-		
-		function GetLocationSuccess(position) {							
-			$.ajax({
-				type: "POST",
-				url: "http://standardexpress.azurewebsites.net/api/MobileLocation",
-				data: {lat:position.coords.latitude, lon:position.coords.longitude, driverId:123456},
-				success: function(){console.log('successfully posted to server from PostLocation');alert('successfully sent location');},
-				fail: function(){console.log('error posting from PostLocation');alert('error sending location');}
-			});		
-		}
-		
-		function GetLocationError(error) {
-			alert('code: '    + error.code    + '\n' +
-				  'message: ' + error.message + '\n');
-				  return "error sdf ssdf sdf sd";
-		}
-		
-		function LogOut(){
-			localStorage.clear();
-			$.mobile.changePage("index.html", { transition: "slidedown", });
-		}
-	</script>
+    </body>	
 </html>

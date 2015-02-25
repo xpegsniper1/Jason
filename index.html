@@ -20,49 +20,49 @@
 			</div><!-- /header -->
 			
 			<div role="main" class="ui-content">
-				<input type="password" placeholder="Please enter your pin to continue" />
+				<input id="passwordInput" type="password" placeholder="Please enter your pin to continue" />
 				<a href="" data-role="button" onclick="TryLogin();">Login</a>
 	
 			</div><!-- /content -->
 
 			<!--<div data-role="footer">
 			</div> /footer -->
-
+			<script type="text/javascript">
+				document.addEventListener("deviceready", onDeviceReady, false);
+				
+				document.addEventListener("backbutton", onBackKeyDown, false);
+				function onBackKeyDown() {
+					// this will not allow them to go back into the app after they logout
+				}
+				
+				function onDeviceReady() {
+					console.log("device is ready");
+					window.plugin.notification.local.add({ message: 'Great app!' });
+				}
+				
+				function TryLogin(){
+					$.ajax({
+					  type: "POST",
+					  url: "http://standardexpress.azurewebsites.net/api/MobileLogin",
+					  data: {pin:$('#passwordInput').val()},
+					  success: function(response){
+								if(response.loginSuccess == true){
+									LoginSucccess(response);
+								}else{
+									alert("Invalid PIN");
+								}						
+							},
+					  fail: function(){console.log('error posting to server from watch')}
+					});	
+				}
+				
+				function LoginSucccess(driverObject){
+					console.log('successfully logged in');
+					localStorage.setItem("DriverId", driverObject.DriverId);
+					localStorage.setItem("DriverStatusId", 12);
+					$.mobile.changePage("HomePage.html", { transition: "slidedown"});
+				}
+			</script>
 		</div><!-- /page -->			
-    </body>
-	<script type="text/javascript">
-		document.addEventListener("deviceready", onDeviceReady, false);
-		
-		document.addEventListener("backbutton", onBackKeyDown, false);
-		function onBackKeyDown() {
-			// this will not allow them to go back into the app after they logout
-		}
-		
-		function onDeviceReady() {
-			console.log("device is ready");
-			window.plugin.notification.local.add({ message: 'Great app!' });
-		}
-		
-		function TryLogin(){
-			$.ajax({
-			  type: "POST",
-			  url: "http://standardexpress.azurewebsites.net/api/MobileLogin",
-			  data: {pin:123456},
-			  success: function(response){
-						if(response.DriverId != 0){
-							LoginSucccess(response);
-						}else{
-							alert("Invalid PIN");
-						}						
-					},
-			  fail: function(){console.log('error posting to server from watch')}
-			});	
-		}
-		
-		function LoginSucccess(driverObject){
-			console.log('successfully logged in');
-			localStorage.setItem("DriverId", driverObject.DriverId);
-			$.mobile.changePage("HomePage.html", { transition: "slidedown"});
-		}
-	</script>	
+    </body>	
 </html>
