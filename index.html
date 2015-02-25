@@ -60,11 +60,9 @@
 					localStorage.setItem("DriverStatusId", 12);
 					$.mobile.changePage("HomePage.html", {transition: "slidedown"});
 				}
-				
-				setTimeout(function(){				
-					document.addEventListener("deviceready", onDeviceReady, false);					
-					document.addEventListener("backbutton", onBackKeyDown, false);	
-				},1000);
+								
+				document.addEventListener("deviceready", onDeviceReady, false);					
+				document.addEventListener("backbutton", onBackKeyDown, false);	
 			</script>
 		</div><!-- /page -->			
     </body>	
