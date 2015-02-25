@@ -29,6 +29,7 @@
 			<script type="text/javascript">				
 				function onBackKeyDown() {
 					// this will not allow them to go back into the app after they logout
+					return false;
 				}
 				
 				function onDeviceReady() {
@@ -59,9 +60,10 @@
 					$.mobile.changePage("HomePage.html", {transition: "slidedown"});
 				}
 				
-				document.addEventListener("deviceready", onDeviceReady, false);
-				
-				document.addEventListener("backbutton", onBackKeyDown, false);
+				setTimeout(function(){				
+					document.addEventListener("deviceready", onDeviceReady, false);					
+					document.addEventListener("backbutton", onBackKeyDown, false);	
+				},1000);
 			</script>
 		</div><!-- /page -->			
     </body>	
