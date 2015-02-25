@@ -23,7 +23,7 @@
 			
 			<div data-role="header" data-add-back-btn="true">
             <h1>Returning</h1>			
-                <a href="tel:4143890000" class="ui-btn-right ui-btn ui-btn-inline ui-mini ui-corner-all ui-btn-icon-right ui-icon-action">Call Dispatch</a>
+                <a href="tel:2622936283" data-icon="phone" data-theme="b">Dispatch</a>
             </div><!-- /header -->
 			
 			<div role="main" class="ui-content">
@@ -31,7 +31,7 @@
 				<span>Please sign your name</span>
 				<br />
 				<div id="signingSpace" style="width:100%;height:300px;"></div>
-				<a href="" data-role="button" onclick="$('#signingSpace').signature('clear');">Clear</a>
+				<a href="" id="clearButton" data-role="button" onclick="$('#signingSpace').signature('clear');">Clear</a>
 				<br />
 				
 				<h2>Ending Milage</h2>
@@ -42,7 +42,7 @@
 			<!--<div data-role="footer">
 			</div> /footer -->
 			<script type="text/javascript">
-				var vpWidth = $(window).width();
+				var vpWidth = $('#clearButton').css("width");
 				$('#signingSpace').css("width", vpWidth + "px");				
 				$('#signingSpace').signature();
 				
