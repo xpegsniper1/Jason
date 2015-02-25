@@ -26,10 +26,7 @@
 
 			<!--<div data-role="footer">
 			</div> /footer -->
-			<script type="text/javascript">
-				document.addEventListener("deviceready", onDeviceReady, false);
-				
-				document.addEventListener("backbutton", onBackKeyDown, false);
+			<script type="text/javascript">				
 				function onBackKeyDown() {
 					// this will not allow them to go back into the app after they logout
 				}
@@ -61,6 +58,10 @@
 					localStorage.setItem("DriverStatusId", 12);
 					$.mobile.changePage("HomePage.html", {transition: "slidedown"});
 				}
+				
+				document.addEventListener("deviceready", onDeviceReady, false);
+				
+				document.addEventListener("backbutton", onBackKeyDown, false);
 			</script>
 		</div><!-- /page -->			
     </body>	
