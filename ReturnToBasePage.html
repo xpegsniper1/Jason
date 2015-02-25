@@ -15,12 +15,12 @@
     </head>
     <body>
 		<div data-role="page">
-			<link rel="stylesheet" href="js/jquery.signature.css" />
-				
+			<link rel="stylesheet" href="js/jquery.signature.css" />				
 			<link rel="stylesheet" href="js/jquery-ui.css" />
 			<script src="js/jquery-ui.min.js"></script>
 			<script src="js/jquery.signature.min.js"></script>	
 			<script src="js/jquery.ui.touch-punch.min.js"></script>
+			
 			<div data-role="header" data-add-back-btn="true">
             <h1>Returning</h1>			
                 <a href="tel:4143890000" class="ui-btn-right ui-btn ui-btn-inline ui-mini ui-corner-all ui-btn-icon-right ui-icon-action">Call Dispatch</a>
@@ -30,8 +30,8 @@
 				<h2>Return to base</h2>
 				<span>Please sign your name</span>
 				<br />
-				<div id="signingSpace" style="width:500px;height:300px;"></div>
-				<a href="" data-role="button" onclick="$('#sig').signature('clear');">Clear</a>
+				<div id="signingSpace" style="width:100%;height:300px;"></div>
+				<a href="" data-role="button" onclick="$('#signingSpace').signature('clear');">Clear</a>
 				<br />
 				
 				<h2>Ending Milage</h2>
@@ -42,6 +42,8 @@
 			<!--<div data-role="footer">
 			</div> /footer -->
 			<script type="text/javascript">
+				var vpWidth = $(window).width();
+				$('#signingSpace').css("width", vpWidth + "px");				
 				$('#signingSpace').signature();
 				
 				function SubmitReturningInfo(){
