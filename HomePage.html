@@ -17,30 +17,29 @@
     <body>
 		<div data-role="page">
 			<div data-role="header">
+				<a href="#" data-icon="" data-theme="b" onclick="LogOut();">LogOut</a>
 				<h1>Jobs</h1>
+				<a href="tel:2622936283" data-icon="" data-theme="b">Call Dispatch</a>
 			</div><!-- /header -->
 
-			<div role="main" class="ui-content">
-		   
+			<div data-role="main" class="ui-content">		   
 				<form>
 					<input id="filter-for-listview" placeholder="Type to search..." data-type="search">
 				</form>
 				<ul id="listOfJobs" data-role="listview" data-inset="true" data-input="#filter-for-listview" data-filter="true">
 					<!--<li><a href="Delivery.html">Delivery 1</a></li>
 					<li><a href="Delivery2.html">Delivery 2</a></li>-->
-				</ul>
-				
-				<a href="" data-role="button" data-mini="true" onclick="SetStatus();">Set Status</a>
-				 <select id="number" name="value you need">
+				</ul>				
+				<hr />							
+				<select id="number" name="value you need">
 					<option value="moving" selected="selected">Moving</option>  					
 					<option value="moving" selected="selected">Stopped</option>  
 					<option value="moving" selected="selected">Stuff</option>  
 					<option value="moving" selected="selected">Things</option>  
-					</select>
-				<hr />
-				<br /><br /><br />
-				<a href="" data-role="button" data-mini="true" onclick="GetLocation();">Send Location</a>
-				<div id="geolocation"></div>
+				</select>
+					
+				<a href="" data-role="button" onclick="SetStatus();">Set Status</a>			
+				<a href="" data-role="button" onclick="PostLocation();">Test Send Location</a>
 			</div><!-- /content -->
 
 			<!--<div data-role="footer">
@@ -48,104 +47,73 @@
 
 		</div><!-- /page -->			
     </body>
-	<script type="text/javascript">
-				app.initialize();
-				document.addEventListener("deviceready", onDeviceReady, false);
+	<script type="text/javascript">				
+		//document.addEventListener("deviceready", onDeviceReady, false);				
+		onDeviceReady();
 
-				
-				
-				//onDeviceReady();
-				//GetAvailableJobs();
-				var logout = document.getElementById('geolocation');
-
-				function onDeviceReady() {
-					window.plugin.notification.local.add({ message: 'Great app!' });
-					// Throw an error if no update is received every 30 seconds
-					var options = { timeout: 30000, enableHighAccuracy:true };
-					
-					watchID = navigator.geolocation.watchPosition(onSuccessWatch, onErrorWatch, options);
-				}
-
-				// onSuccess Geolocation
-				//
-				function onSuccessWatch(position) {
-					var element = document.getElementById('geolocation');
-					PostLocation(position.coords.latitude,position.coords.longitude);
-					logout += 'Latitude: '  + position.coords.latitude      + '<br />' +
-										'Longitude: ' + position.coords.longitude     + '<br />' +
-										'<hr />'      + element.innerHTML;
-				}
-
-					// onError Callback receives a PositionError object
-					//
-					function onErrorWatch(error) {
-						alert('code: '    + error.code    + '\n' +
-							  'message: ' + error.message + '\n');
-					}
-				
-				function PostLocation(la,lo){
-				var x = 1;
-						$.ajax({
-						  type: "POST",
-						  url: "http://standardexpress.azurewebsites.net/api/MobileLocation",
-						  data: {lat:la, lon:lo, driverId:123456},
-						  success:logout += 'successfully posted to server from watch',
-						  fail: logout += 'error posting to server from watch'
-						});	
-				}
-				
-				function GetAvailableJobs(){
-					$.ajax({
-						  type: "GET",
-						  url: "http://standardexpress.azurewebsites.net/api/MobileDriverStatus",						  
-						  success: function(data){
-												//alert('Got Jobs');
-												for(i = 0; i<data.length;i++){													
-													var htmlToAppend = "<li><a href='Delivery.html'>Delivery " + (i + 1) +"</a></li>";													
-													$('#listOfJobs').append(htmlToAppend);
-													$('#listOfJobs').listview('refresh');
-												}
-											},
-						  fail: function(){alert('error getting jobs from server')}
-					});	
-				}
-				function SetStatus(){
-						$.ajax({
-						  type: "POST",
-						  url: "http://standardexpress.azurewebsites.net/api/MobileLocation",
-						  data: {lat:position.coords.latitude, lon:position.coords.longitude, driverId:123456},
-						  success: alert('successfully posted to server'),
-						  fail: alert('error posting to server')
-						});	
-				}
-				
-	</script>
-	<script>
-		function GetLocation(){
-			 navigator.geolocation.getCurrentPosition(onSuccess, onError);
-		}
-		function onSuccess(position) {
-			var element = document.getElementById('geolocation');
-			element.innerHTML = 'Latitude: '           + position.coords.latitude              + '<br />' +
-								'Longitude: '          + position.coords.longitude             + '<br />' +
-								'Altitude: '           + position.coords.altitude              + '<br />' +
-								'Accuracy: '           + position.coords.accuracy              + '<br />' +
-								'Altitude Accuracy: '  + position.coords.altitudeAccuracy      + '<br />' +
-								'Heading: '            + position.coords.heading               + '<br />' +
-								'Speed: '              + position.coords.speed                 + '<br />' +
-								'Timestamp: '          + position.timestamp                    + '<br />';							
+		function onDeviceReady() {
+			GetAvailableJobs();
+			PostLocation
+			//window.plugin.notification.local.add({ message: 'Great app!' });
+			// Throw an error if no update is received every 30 seconds
+			//var options = { timeout: 30000, enableHighAccuracy:true };
 			
+			//watchID = navigator.geolocation.watchPosition(onSuccessWatch, onErrorWatch, options);
+		}
+		
+		function GetAvailableJobs(){
 			$.ajax({
-			  type: "POST",
-			  url: "http://standardexpress.azurewebsites.net/api/MobileLocation",
-			  data: {lat:position.coords.latitude, lon:position.coords.longitude, driverId:123456},
-			  success: alert('successfully posted to server'),
-			  fail: alert('error posting to server')
+					type: "GET",
+					url: "http://standardexpress.azurewebsites.net/api/MobileLoad/" + localStorage.getItem("DriverId"),					
+					success: function(data){
+										console.log('Got Jobs');
+										for(i = 0; i<data.length;i++){											
+											var currentLoad = data[i];
+											var htmlToAppend = "<li><a href='Delivery.html'>";
+											htmlToAppend += "<p class='ui-li-aside ui-li-desc'>" + currentLoad.StatusName + "</p>";
+											htmlToAppend += "<h2 class='ui-li-heading'>Load#: " + currentLoad.OrderId + " - " + currentLoad.ShipCo + "</h2>"
+											htmlToAppend += "</a></li>";													
+											$('#listOfJobs').append(htmlToAppend);
+											$('#listOfJobs').listview('refresh');
+										}
+									},
+					fail: function(){alert('error getting jobs from server')}
 			});	
-    }
-    function onError(error) {
-        alert('code: '    + error.code    + '\n' +
-              'message: ' + error.message + '\n');
-    }
+		}
+		
+		function SetStatus(){
+				$.ajax({
+				  type: "POST",
+				  url: "http://standardexpress.azurewebsites.net/api/MobileLocation",
+				  data: {lat:position.coords.latitude, lon:position.coords.longitude, driverId:123456},
+				  success: alert('successfully posted to server'),
+				  fail: alert('error posting to server')
+				});	
+		}
+		
+		function PostLocation(){
+			navigator.geolocation.getCurrentPosition(GetLocationSuccess, GetLocationError);
+		}
+		
+		function GetLocationSuccess(position) {							
+			$.ajax({
+				type: "POST",
+				url: "http://standardexpress.azurewebsites.net/api/MobileLocation",
+				data: {lat:position.coords.latitude, lon:position.coords.longitude, driverId:123456},
+				success: function(){console.log('successfully posted to server from PostLocation');alert('successfully sent location');},
+				fail: function(){console.log('error posting from PostLocation');alert('error sending location');}
+			});		
+		}
+		
+		function GetLocationError(error) {
+			alert('code: '    + error.code    + '\n' +
+				  'message: ' + error.message + '\n');
+				  return "error sdf ssdf sdf sd";
+		}
+		
+		function LogOut(){
+			localStorage.clear();
+			$.mobile.changePage("index.html", { transition: "slidedown", });
+		}
 	</script>
 </html>
