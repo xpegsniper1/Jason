@@ -22,7 +22,7 @@
 			<script src="js/jquery.ui.touch-punch.min.js"></script>
 			
 			<div data-role="header" data-add-back-btn="true">
-            <h1>Returning</h1>			
+				<h1>Returning</h1>			
                 <a href="tel:2622936283" data-icon="phone" data-theme="b">Dispatch</a>
             </div><!-- /header -->
 			
@@ -42,10 +42,12 @@
 			<!--<div data-role="footer">
 			</div> /footer -->
 			<script type="text/javascript">
-				var vpWidth = $('#clearButton').css("width");
-				$('#signingSpace').css("width", vpWidth + "px");				
-				$('#signingSpace').signature();
-				
+				setTimeout(function(){
+					var vpWidth = $('#clearButton').width();
+					$('#signingSpace').css("width", vpWidth);				
+					$('#signingSpace').signature();
+				},100);
+								
 				function SubmitReturningInfo(){
 					$.mobile.changePage("HomePage.html");
 				}
