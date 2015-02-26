@@ -1,0 +1,55 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Standard Express</title>
+		<link rel="stylesheet" href="jquery.mobile-1.4.5.css" />
+			<script src="jquery-1.11.2.js"></script>
+			<script src="jquery.mobile-1.4.5.js"></script>
+	</head>
+	<body>
+		<div data-role="page">
+			<div data-role="header" data-add-back-btn="true">
+				<h1>StandardEx</h1>
+				<a href="tel:2622936283" data-icon="phone" class="ui-btn-right">Dispatch</a>
+			</div><!-- /header -->
+
+			<div role="main" class="ui-content">
+				<ul data-role="listview" data-inset="true">               
+					<li class="ui-field-contain"><label for="1">Notes</label>
+						<input type="text" name="1" id="1" value=""  />
+					</li>
+					<li class="ui-field-contain"><label for="2">Pieces</label>
+						<input type="text" name="2" id="2" value="" /></li>
+					<li class="ui-field-contain">
+						<label for="3">Weight</label>
+						<input type="text" name="3" id="3" value="" />
+					</li>
+				</ul>
+
+				<a href="#" data-role="button"onclick="SubmitDeliveryConfirmation();">Confirm</a>
+			</div><!-- /content -->
+
+			<!--<div data-role="footer">
+			</div> /footer -->
+			
+			<script type="text/javascript">					
+				function PostConfirmation(){							
+					$.ajax({
+						type: "POST",
+						url: "http://standardexpress.azurewebsites.net/api/MobileVehicle",
+						data: {StatusId:14, DriverId:localStorage.getItem("DriverId")},
+						success: function(){console.log('successfully posted to server from LeavingTerminal');},
+						fail: function(){console.log('error posting from LeavingTerminal');alert('error sending location');}
+					});		
+				}
+				
+				function SubmitDeliveryConfirmation(){
+					PostConfirmation();
+					$.mobile.changePage("HomePage.html");
+				}
+			</script>
+		</div><!-- /page -->
+	</body>
+</html>

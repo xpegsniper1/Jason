@@ -19,7 +19,7 @@
 			<div data-role="header">
 				<a href="#" data-icon="" data-theme="b" onclick="LogOut();">LogOut</a>
 				<h1>Jobs</h1>
-				<a href="tel:2622936283" data-icon="phone" class="ui-btn-right" data-theme="b">Dispatch</a>
+				<a href="tel:2622936283" data-icon="phone" class="ui-btn-right">Dispatch</a>
 			</div><!-- /header -->
 
 			<div data-role="main" class="ui-content">		   
@@ -88,9 +88,9 @@
 										console.log('Updated Status');
 										//If the statusid is 13 or 14 it goes to other pages however if it is anything else you only need to post DriverId and StatusId
 										if($('#driverStatusList').val() == 13){
-											$.mobile.changePage("LeavingTerminalPage.html", { transition: "slidedown", });
+											$.mobile.changePage("LeavingTerminalPage.html");
 										}else if($('#driverStatusList').val() == 14){
-											$.mobile.changePage("ReturnToBasePage.html", { transition: "slidedown", });
+											$.mobile.changePage("ReturnToBasePage.html");
 										}	
 									},
 						fail: function(){alert('error updating status')}

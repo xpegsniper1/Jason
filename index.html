@@ -59,7 +59,7 @@
 					console.log('successfully logged in');
 					localStorage.setItem("DriverId", driverObject.DriverId);
 					localStorage.setItem("DriverStatusId", 12);
-					$.mobile.changePage("HomePage.html", {transition: "slidedown"});
+					$.mobile.changePage("HomePage.html");
 				}
 								
 				document.addEventListener("deviceready", onDeviceReady, false);					
