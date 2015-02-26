@@ -40,6 +40,7 @@
 					
 				<a href="" data-role="button" onclick="SetStatus();">Set Status</a>			
 				<a href="" data-role="button" onclick="PostLocation();">Test Send Location</a>
+				<a href="" data-role="button" onclick="TestNotification();">Test Notification</a>
 			</div><!-- /content -->
 
 			<!--<div data-role="footer">
@@ -51,8 +52,7 @@
 				function onDeviceReady() {
 					GetAvailableJobs();
 					PostLocation();
-					SetSelectedDriverStatus();
-					//window.plugin.notification.local.add({ message: 'Great app!' });
+					SetSelectedDriverStatus();					
 				}
 				
 				function SetSelectedDriverStatus(){
@@ -135,7 +135,7 @@
 						//repeat:  'weekly',
 						date:    _10_seconds_from_now
 					});
-				}
+				}							
 			</script>
 		</div><!-- /page -->			
     </body>	
