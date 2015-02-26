@@ -28,8 +28,9 @@
 			<!--<div data-role="footer">
 			</div> /footer -->
 			<script type="text/javascript">				
-				function onBackKeyDown() {
+				function onBackKeyDown(e) {
 					// this will not allow them to go back into the app after they logout
+					e.preventDefault();
 					return false;
 				}
 				

@@ -27,8 +27,6 @@
 					<input id="filter-for-listview" placeholder="Type to search..." data-type="search">
 				</form>
 				<ul id="listOfJobs" data-role="listview" data-inset="true" data-input="#filter-for-listview" data-filter="true">
-					<!--<li><a href="Delivery.html">Delivery 1</a></li>
-					<li><a href="Delivery2.html">Delivery 2</a></li>-->
 				</ul>				
 				<hr />							
 				<select id="driverStatusList" name="value you need">
@@ -67,7 +65,7 @@
 												console.log('Got Jobs');
 												for(i = 0; i<data.length;i++){											
 													var currentLoad = data[i];
-													var htmlToAppend = "<li><a href='Delivery.html'>";
+													var htmlToAppend = "<li><a href='JobDetails.html'>";
 													htmlToAppend += "<p class='ui-li-aside ui-li-desc'>" + currentLoad.StatusName + "</p>";
 													htmlToAppend += "<h2 class='ui-li-heading'>Load#: " + currentLoad.OrderId + " - " + currentLoad.ShipCo + "</h2>"
 													htmlToAppend += "</a></li>";													
