@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<title>Standard Express</title>
+		<title>Job Detail</title>
 		<link rel="stylesheet" href="jquery.mobile-1.4.5.css" />
 			<script src="jquery-1.11.2.js"></script>
 			<script src="jquery.mobile-1.4.5.js"></script>
@@ -11,7 +11,7 @@
 	<body>
 		<div data-role="page">
 			<div data-role="header" data-add-back-btn="true">
-				<h1>StandardEx</h1>			
+				<h1>Job Detail</h1>			
 				<a href="tel:2622936283" data-icon="phone" class="ui-btn-right">Dispatch</a>
 			</div><!-- /header -->
 
@@ -36,16 +36,46 @@
 					<li class="ui-field-contain"><label for="8">Weight</label><label id="8">1</label></li>
 					<li class="ui-field-contain"><label for="9">Instructions</label><label id="9"><br /><br /><br /><br /></label></li>
 				</ul>
+				
+				<select id="statusSelection">
+					<option value="2">Dispatched</option>
+					<option value="3">Confirmed</option>
+					<option value="4">At Shipper</option>
+					<option value="5">Loaded</option>
+					<option value="6">At Delivery</option>
+					<option value="7">Delivered</option>
+					<option value="8">Drop Trailer</option>
+					<option value="10">On Hold</option>					
+				</select>
 
-				<a href="#" data-role="button" onclick="GoToConfim();">Confirm</a>
+				<a href="#" data-role="button" onclick="SetStatus();">Set Status</a>
 			</div><!-- /content -->
 			
 			<!--<div data-role="footer">
 			</div> /footer -->
 			<script type="text/javascript">
-				function GoToConfim(){
-					$.mobile.changePage("DeliveryConfirmation.html");
+				function GetJobDetails() {							
+					$.ajax({
+						type: "GET",
+						url: "http://standardexpress.azurewebsites.net/api/MobileLoadDetails/" + 250011,
+						success: function(order){console.log(order);},
+						fail: function(){console.log('error getting job details');alert('error getting job details');}
+					});		
 				}
+				
+				function SetStatus(){				
+					var selectedStatusId = $("#statusSelection option:selected").val();
+					
+					if (selectedStatusId == 5){
+						$.mobile.changePage("DeliveryConfirmation.html");
+					}else if (selectedStatusId == 7 || selectedStatusId == 8){
+						$.mobile.changePage("ProofOfDelivery.html");
+					}else{
+						$.mobile.changePage("HomePage.html");
+					}
+				}
+				
+				GetJobDetails();
 			</script>
 		</div><!-- /page -->
 	</body>
