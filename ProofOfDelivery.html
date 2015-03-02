@@ -18,7 +18,7 @@
 			<div role="main" class="ui-content">
 				<h2>Proof of Delivery</h2>
 				<span>Name</span>
-				<input type="text" id="nameInput"/>
+				<input type="text" id="podInput"/>
 				<a href="#" data-role="button"onclick="ConfirmPOD();">Confirm POD</a>
 			</div><!-- /content -->
 
@@ -29,15 +29,15 @@
 				function PostConfirmation(){							
 					$.ajax({
 						type: "POST",
-						url: "http://standardexpress.azurewebsites.net/api/MobileVehicle",
-						data: {StatusId:14, DriverId:localStorage.getItem("DriverId")},
+						url: "http://standardexpress.azurewebsites.net/api/MobileDriverStatus",
+						data: {StatusId:7, ApplicableLoadId :currentLoadId, POD: $('#podInput').val()},
 						success: function(){console.log('successfully posted to server from LeavingTerminal');},
 						fail: function(){console.log('error posting from LeavingTerminal');alert('error sending location');}
 					});		
 				}
 				
 				function ConfirmPOD(){
-					//PostConfirmation();
+					PostConfirmation();
 					$.mobile.changePage("HomePage.html");
 				}
 			</script>

@@ -17,24 +17,33 @@
 
 			<div role="main" class="ui-content">
 				<ul data-role="listview" data-inset="true">               
-					<li class="ui-field-contain"><label for="1">Notes</label>
-						<input type="text" name="1" id="1" value=""  />
-					</li>
 					<li class="ui-field-contain"><label for="2">Pieces</label>
-						<input type="text" name="2" id="2" value="" /></li>
+						<input type="text" name="2" id="piecesInput" value="" /></li>
 					<li class="ui-field-contain">
 						<label for="3">Weight</label>
-						<input type="text" name="3" id="3" value="" />
+						<input type="text" name="3" id="weightInput" value="" />
 					</li>
 				</ul>
 
-				<a href="#" data-role="button"onclick="SubmitDeliveryConfirmation();">Confirm</a>
+				<a href="#" data-role="button"onclick="SubmitDeliveryConfirmation();">Pickup</a>
 			</div><!-- /content -->
 
 			<!--<div data-role="footer">
 			</div> /footer -->
 			
-			<script type="text/javascript">					
+			<script type="text/javascript">		
+				function LoadDetails(){							
+					$.ajax({
+						type: "GET",
+						url: "http://standardexpress.azurewebsites.net/api/MobileLoadCommodity/" + currentLoadId,						
+						success: function(details){
+											$('#piecesInput').val(details.pieces);
+											$('#weightInput').val(details.weight);
+											},
+						fail: function(){console.log('error posting from LeavingTerminal');alert('error sending location');}
+					});		
+				}
+			
 				function PostConfirmation(){							
 					$.ajax({
 						type: "POST",
@@ -49,6 +58,8 @@
 					PostConfirmation();
 					$.mobile.changePage("HomePage.html");
 				}
+				
+				LoadDetails();
 			</script>
 		</div><!-- /page -->
 	</body>

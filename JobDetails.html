@@ -9,7 +9,7 @@
 			<script src="jquery.mobile-1.4.5.js"></script>
 	</head>
 	<body>
-		<div data-role="page">
+		<div data-role="page" id="jobDetails">
 			<div data-role="header" data-add-back-btn="true">
 				<h1>Job Detail</h1>			
 				<a href="tel:2622936283" data-icon="phone" class="ui-btn-right">Dispatch</a>
@@ -52,10 +52,18 @@
 			<!--<div data-role="footer">
 			</div> /footer -->
 			<script type="text/javascript">
+				var currentLoadId;
+				$(document).on('pagebeforeshow', "#jobDetails",function () {
+					var passedIn = $(this).data("url").split("?")[1];					
+					currentLoadId = passedIn.replace("parameter=","").substring(7); 										 
+					
+					GetJobDetails();					
+				});  
+				
 				function GetJobDetails() {							
 					$.ajax({
 						type: "GET",
-						url: "http://standardexpress.azurewebsites.net/api/MobileLoadDetails/" + 250011,
+						url: "http://standardexpress.azurewebsites.net/api/MobileLoadDetails/" + currentLoadId,
 						success: function(order){
 												console.log(order);
 												var currentOrder = order.orderDetails[0];
@@ -86,8 +94,6 @@
 						$.mobile.changePage("HomePage.html");
 					}
 				}
-				
-				GetJobDetails();
 			</script>
 		</div><!-- /page -->
 	</body>
