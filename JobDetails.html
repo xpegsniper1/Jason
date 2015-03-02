@@ -17,14 +17,12 @@
 
 			<div role="main" class="ui-content">
 				<ul data-role="listview" data-inset="true">
-					<li class="ui-field-contain"><label for="0">Round Trip</label><input id="0" type="checkbox" /></li>
+					<li class="ui-field-contain"><label for="0" id="loadId">Load ID - </label></li>
 					<li data-role="list-divider">Pickup</li>
-					<li class="ui-field-contain"><label for="1">Open Time</label><label id="1">2:19 PM</label></li>
-					<li class="ui-field-contain"><label for="1">Close Time</label><label id="1">2:30 PM</label></li>
-					<li class="ui-field-contain"><label for="3">Pickup At</label><label id="3">Standard Express Terminal<br />
-					2727 S. 11th St.<br />
-					Milwaukee WI 53215</label></li>
-					<li class="ui-field-contain"><label for="4">Contact</label><label id="4"></label></li>
+					<li class="ui-field-contain"><label for="1">Open Time</label><label id="pickupOpenTime"></label></li>
+					<li class="ui-field-contain"><label for="1">Close Time</label><label id="pickupCloseTime"></label></li>
+					<li class="ui-field-contain"><label for="3">Pickup At</label><label id="pickupBillingCoName"></label></li>
+					<li class="ui-field-contain"><label for="4">Contact</label><label id="pickupBillingContact"></label></li>
 					<li data-role="list-divider">Delivery</li>
 					<li class="ui-field-contain"><label for="2">Open Time</label><label id="2">3:49 PM</label></li>
 					<li class="ui-field-contain"><label for="2a">Close Time</label><label id="2a">4:15 PM</label></li>
@@ -32,9 +30,9 @@
 					2727 S. 11th St.<br />
 					Milwaukee WI 53215</label></li>
 					<li class="ui-field-contain"><label for="6">Contact</label><label id="6"></label></li>
-					<li class="ui-field-contain"><label for="7">Pieces</label><label id="7">1</label></li>
-					<li class="ui-field-contain"><label for="8">Weight</label><label id="8">1</label></li>
-					<li class="ui-field-contain"><label for="9">Instructions</label><label id="9"><br /><br /><br /><br /></label></li>
+					<li class="ui-field-contain"><label for="7">Pieces</label><label id="numberOfPieces"></label></li>
+					<li class="ui-field-contain"><label for="8">Weight</label><label id="totalWeight"></label></li>
+					<li class="ui-field-contain"><label for="9">Instructions</label><label id="instructionsField"></label></li>
 				</ul>
 				
 				<select id="statusSelection">
@@ -58,10 +56,24 @@
 					$.ajax({
 						type: "GET",
 						url: "http://standardexpress.azurewebsites.net/api/MobileLoadDetails/" + 250011,
-						success: function(order){console.log(order);},
+						success: function(order){
+												console.log(order);
+												var currentOrder = order.orderDetails[0];
+												$('#loadId').append(order.order.OrderId);
+												$('#pickupOpenTime').text(currentOrder.AvailableDate);
+												$('#pickupCloseTime').text(currentOrder.StopDate);
+												$('#pickupBillingCoName').html(order.order.BillingCoName + '<br />' + order.order.BillingAddress+ '<br />' + order.order.BillingCity+ ', ' + order.order.BillingState + ' ' + order.order.BillingZip);
+												$('#pickupBillingContact').html(order.order.BillingContact + '<br />' + order.order.BillingPhone);
+												$('#numberOfPieces').text(order.order.TotalPieces);
+												$('#totalWeight').text(order.order.TotalWeight);
+												$('#instructionsField').text(order.order.Notes);
+											},
 						fail: function(){console.log('error getting job details');alert('error getting job details');}
 					});		
 				}
+				//order details 
+				//open goes to available date, then available time
+				//close maps to stop date and stop time
 				
 				function SetStatus(){				
 					var selectedStatusId = $("#statusSelection option:selected").val();
