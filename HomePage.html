@@ -82,7 +82,8 @@
 													if(Date.parse(currentLoad.DateCreated) > localStorage.LastCheckedForLoads){
 														//trigger notification for new load
 														console.log('new item');
-														window.plugin.notification.local.add({ message: 'New load available!' });
+														var x = Date.parse(currentLoad.DateCreated);
+														window.plugin.notification.local.add({ title:  x, message: 'New load available!' });
 													}
 													
 													$('#listOfJobs').append(htmlToAppend);
