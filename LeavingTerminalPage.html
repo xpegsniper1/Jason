@@ -38,7 +38,7 @@
 			<script type="text/javascript">
 				GetVehicles();
 				GetTrailerList();						
-				
+				$('#semiTrailerList').css('display', 'none').parent('div').parent('.ui-select').css('display', 'none');
 				function PostLeavingTerminal() {
 					$.ajax({
 						type: "POST",
@@ -90,8 +90,8 @@
 													var htmlToAppend = "<option value='" + trailer.FleetVehicleTrailerId+ "'>"+ trailer.TrailerName + "</option>";																								
 													$('#semiTrailerList').append(htmlToAppend);
 												}
-												$('#semiTrailerList').selectmenu("refresh", true); //updates lists after dynamic loading
-												$("#semiTrailerList").change(); //auto loads mileage of selected vehicle												
+												$('#semiTrailerList').selectmenu("refresh", true);
+												$("#semiTrailerList").change();											
 											},
 							fail: function(){alert('error getting vehicles from server')}
 					});	
