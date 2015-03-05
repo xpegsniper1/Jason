@@ -43,7 +43,7 @@
 					$.ajax({
 						type: "POST",
 						url: "http://standardexpress.azurewebsites.net/api/MobileVehicle",
-						data: {StatusId:13,DriverId:localStorage.getItem("DriverId"),VehicleId:$("#availableVehicles option:selected").val(),TrailerId:$("#semiTrailerList option:selected").val(),Mileage:$('#mileageInput').val()},
+						data: {StatusId:13,DriverId:localStorage.getItem("DriverId"),VehicleId:$("#availableVehicles option:selected").val(),TrailerId:$("#semiTrailerList option:selected").val(),Mileage:parseInt($('#mileageInput').val())},
 						success: function(){console.log('successfully posted to server from LeavingTerminal');},
 						fail: function(){console.log('error posting from LeavingTerminal');alert('error sending location');}
 					});		

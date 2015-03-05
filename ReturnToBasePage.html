@@ -48,11 +48,20 @@
 					$('#signingSpace').signature();
 				},500);
 						
-				function PostReturningToBase(){							
+				function PostReturningToBase(){	
+					var x = {
+								StatusId:14, 
+								DriverId:localStorage.getItem("DriverId"), 
+								VehicleId:null, 
+								TrailerId:null,
+								ApplicableLoadId:null,
+								Mileage:$('#mileageInput').val(), 
+								SignatureData:$('#signingSpace').signature('toSVG')
+							};
 					$.ajax({
 						type: "POST",
-						url: "http://standardexpress.azurewebsites.net/api/MobileVehicle",
-						data: {StatusId:14, DriverId:localStorage.getItem("DriverId"), Mileage:$('#mileageInput').val(), SignatureData:$('#signingSpace').signature('toJSON')},
+						url: "http://standardexpress.azurewebsites.net/api/MobileDriverStatus",
+						data: x,
 						success: function(){console.log('successfully posted to server from LeavingTerminal');},
 						fail: function(){console.log('error posting from LeavingTerminal');alert('error sending location');}
 					});		
