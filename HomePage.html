@@ -46,6 +46,7 @@
 			<script type="text/javascript">				
 				//document.addEventListener("deviceready", onDeviceReady, false);				
 				onDeviceReady();
+				localStorage.LastCheckedForLoads;
 
 				function onDeviceReady() {
 					GetAvailableJobs();
@@ -68,13 +69,21 @@
 													var htmlToAppend = "<li><a href='JobDetails.html?loadId=" + currentLoad.OrderId + "'>";
 													htmlToAppend += "<p class='ui-li-aside ui-li-desc'>" + currentLoad.StatusName + "</p>";
 													htmlToAppend += "<h2 class='ui-li-heading'>Load#: " + currentLoad.OrderId + " - " + currentLoad.ShipCo + "</h2>"
-													htmlToAppend += "</a></li>";													
+													htmlToAppend += "</a></li>";			
+													
+													if(Date.parse(currentLoad.DateCreated) > localStorage.LastCheckedForLoads){
+														//trigger notification for new load
+														console.log('new item');
+														window.plugin.notification.local.add({ message: 'New load available!' });
+													}
+													
 													$('#listOfJobs').append(htmlToAppend);
 													$('#listOfJobs').listview('refresh');
 												}
+												localStorage.LastCheckedForLoads = Date.now();
 											},
 							fail: function(){alert('error getting jobs from server')}
-					});	
+					});						
 				}
 				
 				function SetStatus(){

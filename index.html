@@ -43,7 +43,7 @@
 					$.ajax({
 					  type: "POST",
 					  url: "http://standardexpress.azurewebsites.net/api/MobileLogin/",
-					  data: {pin:$('#passwordInput').val()},
+					  data: {pin:'"' + $('#passwordInput').val() + '"'},
 					  success: function(response){
 								if(response.loginSuccess == true){
 									LoginSucccess(response);
