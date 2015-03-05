@@ -44,14 +44,20 @@
 			<!--<div data-role="footer">
 			</div> /footer -->
 			<script type="text/javascript">				
-				//document.addEventListener("deviceready", onDeviceReady, false);				
-				onDeviceReady();
+				document.addEventListener("deviceready", onDeviceReady, false);				
+				//onDeviceReady();
 				localStorage.LastCheckedForLoads;
 
 				function onDeviceReady() {
 					GetAvailableJobs();
-					//PostLocation(); 
-					SetSelectedDriverStatus();					
+					PostLocation(); 
+					SetSelectedDriverStatus();
+					StartUpdatingLocationAndCheckingForUpdates();
+				}
+				
+				function StartUpdatingLocationAndCheckingForUpdates(){
+					localStorage.CurrentLocationIntervalId = setInterval(function(){PostLocation();},30000);
+					localStorage.CurrentJobUpdateIntervalId = setInterval(function(){GetAvailableJobs();},30000);
 				}
 				
 				function SetSelectedDriverStatus(){
