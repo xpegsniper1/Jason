@@ -83,7 +83,7 @@
 														//trigger notification for new load
 														console.log('new item');
 														var x = Date.parse(currentLoad.DateCreated);
-														window.plugin.notification.local.add({ title:  x, message: 'New load available!' });
+														window.plugin.notification.local.add({ title:  'New load has been assigned', message: 'Please launch Standard Express' });
 													}
 													
 													$('#listOfJobs').append(htmlToAppend);
