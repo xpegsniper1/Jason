@@ -24,9 +24,8 @@
 				<h2>Select which vehicle you are driving, and enter starting mileage</h2>
 				<select id="availableVehicles">					
 				</select>
-				<select id="semiTrailer">
-					<option>1</option>
-					<option>2</option>
+				<select id="semiTrailerList">
+					<option value="">None</option>
 				</select>
 				
 				<h2>Mileage</h2>
@@ -38,16 +37,19 @@
 			</div> /footer -->
 			<script type="text/javascript">
 				GetVehicles();
+				GetTrailerList();						
 				
-				$("#availableVehicles").change(function(){					
-					$('#mileageInput').val($("#availableVehicles option:selected").attr("data-mileage"));
-				});
-				
-				function PostLeavingTerminal() {							
+				function PostLeavingTerminal() {
 					$.ajax({
 						type: "POST",
 						url: "http://standardexpress.azurewebsites.net/api/MobileVehicle",
-						data: {StatusId:13, DriverId:localStorage.getItem("DriverId"), VehicleId:$("#availableVehicles option:selected").val(), TrailerId:"", Mileage:$('#mileageInput').val()},
+						data: {
+								StatusId:13, 
+								DriverId:localStorage.getItem("DriverId"), 
+								VehicleId:$("#availableVehicles option:selected").val(), 
+								TrailerId:$("#semiTrailerList option:selected").val(), 
+								Mileage:$('#mileageInput').val()
+							},
 						success: function(){console.log('successfully posted to server from LeavingTerminal');},
 						fail: function(){console.log('error posting from LeavingTerminal');alert('error sending location');}
 					});		
@@ -61,12 +63,13 @@
 												console.log('Got Vehicles');
 												for(i = 0; i<data.length;i++){											
 													var currentVehicle = data[i];
-													var htmlToAppend = "<option data-mileage='" + currentVehicle.StartingMileage  + "' value='" + currentVehicle.VehicleId + "'>" + currentVehicle.Vehicle;
+													var htmlToAppend = "<option data-semi='" +  currentVehicle.isSemi + "' data-mileage='" + currentVehicle.StartingMileage  + "' value='" + currentVehicle.VehicleId + "'>" + currentVehicle.Vehicle;
 													htmlToAppend += "</option>";													
 													$('#availableVehicles').append(htmlToAppend);
 												}
 												$('#availableVehicles').selectmenu("refresh", true); //updates lists after dynamic loading
 												$("#availableVehicles").change(); //auto loads milage of selected vehicle
+																						
 											},
 							fail: function(){alert('error getting vehicles from server')}
 					});	
@@ -75,6 +78,35 @@
 					PostLeavingTerminal();
 					$.mobile.changePage("HomePage.html");
 				}
+				
+				function GetTrailerList(){
+					$.ajax({
+							type: "GET",
+							url: "http://standardexpress.azurewebsites.net/api/MobileTrailer/",					
+							success: function(data){
+												console.log('Got Trailers');
+												for(i = 0; i<data.length;i++){											
+													var trailer = data[i];
+													var htmlToAppend = "<option value='" + trailer.FleetVehicleTrailerId+ "'>"+ trailer.TrailerName + "</option>";																								
+													$('#semiTrailerList').append(htmlToAppend);
+												}
+												$('#semiTrailerList').selectmenu("refresh", true); //updates lists after dynamic loading
+												$("#semiTrailerList").change(); //auto loads mileage of selected vehicle												
+											},
+							fail: function(){alert('error getting vehicles from server')}
+					});	
+				}		
+
+				$("#availableVehicles").change(function(){					
+					$('#mileageInput').val($("#availableVehicles option:selected").attr("data-mileage"));
+					
+					if($("#availableVehicles option:selected").attr("data-semi") == "true"){						
+						$('#semiTrailerList').css('display', 'block').parent('div').parent('.ui-select').css('display', 'block');						
+					}else{
+						$('#semiTrailerList').css('display', 'none').parent('div').parent('.ui-select').css('display', 'none');						
+					}
+					$('select').selectmenu('refresh');
+				});
 			</script>
 		</div><!-- /page -->			
     </body>	
