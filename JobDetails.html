@@ -69,7 +69,7 @@
 														hta+="<li><label><input type='checkbox' id='hasAppointment" + i + "' checked='" + currentOrder.hasAppointment + "'>Has Appointment</label></li>"; //has appointment check
 														hta+=ls + "Open Time" + lm + currentOrder.AvailableDate.substring(0,10) + " " + currentOrder.AvailableTime + le;
 														hta+=ls + "Close Time" + lm + currentOrder.StopDate.substring(0,10) + " " + currentOrder.StopTime + le;
-														hta+=ls + "Location" + lm + currentOrder.Address + "<br />" + currentOrder.City + ", " + currentOrder.State + " " + currentOrder.Zip + le;														
+														hta+=ls + "Location" + lm + currentOrder.Name + "<br />" + currentOrder.Address + "<br />" + currentOrder.City + ", " + currentOrder.State + " " + currentOrder.Zip + le;														
 														hta+=ls + "Contact" + lm + currentOrder.Contact + le;
 																												
 														if(currentOrder.hasAppointment == true){
@@ -81,7 +81,7 @@
 														hta+="<li><label><input type='checkbox' id='hasAppointment" + i + "' checked='" + currentOrder.hasAppointment + "'>Has Appointment</label></li>"; //has appointment check
 														hta+=ls + "Open Time" + lm + currentOrder.AvailableDate.substring(0,10) + " " + currentOrder.AvailableTime + le;
 														hta+=ls + "Close Time" + lm + currentOrder.StopDate.substring(0,10) + " " + currentOrder.StopTime + le;
-														hta+=ls + "Location" + lm + currentOrder.Address + "<br />" + currentOrder.City + ", " + currentOrder.State + " " + currentOrder.Zip + le;														
+														hta+=ls + "Location" + lm + currentOrder.Name + "<br />" + currentOrder.Address + "<br />" + currentOrder.City + ", " + currentOrder.State + " " + currentOrder.Zip + le;														
 														hta+=ls + "Contact" + lm + currentOrder.Contact + le;					
 													}
 													$('#mainList').append(hta); //append new type info
