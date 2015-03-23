@@ -43,16 +43,15 @@
 			<!--<div data-role="footer">
 			</div> /footer -->
 			<script type="text/javascript">				
-				//document.addEventListener("deviceready", onDeviceReady, false);				
-				onDeviceReady();
-				
+				document.addEventListener("deviceready", onDeviceReady, false);				
+				//onDeviceReady();				
 
 				function onDeviceReady() {
 					localStorage.LastCheckedForLoads = 1867401600;
 					GetAvailableJobs();
-					//PostLocation(); 
+					PostLocation(); 
 					SetSelectedDriverStatus();
-					//StartUpdatingLocationAndCheckingForUpdates();
+					StartUpdatingLocationAndCheckingForUpdates();
 				}
 				
 				function StartUpdatingLocationAndCheckingForUpdates(){
@@ -82,7 +81,7 @@
 														//trigger notification for new load
 														console.log('new item');
 														var x = Date.parse(currentLoad.DateCreated);
-														//window.plugin.notification.local.add({ title:  'New load has been assigned', message: 'Please launch Standard Express' });
+														window.plugin.notification.local.add({ title:  'New load has been assigned', message: 'Please launch Standard Express' });
 													}
 													
 													$('#listOfJobs').append(htmlToAppend);
