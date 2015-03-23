@@ -64,7 +64,6 @@
 				}
 				
 				function GetAvailableJobs(){
-					$('#listOfJobs').html("");
 					$.ajax({
 							type: "GET",
 							url: "http://standardexpress.azurewebsites.net/api/MobileLoad/" + localStorage.getItem("DriverId"),					
@@ -84,7 +83,7 @@
 														window.plugin.notification.local.add({ title:  'New load has been assigned', message: 'Please launch Standard Express' });
 													}
 													
-													$('#listOfJobs').append(htmlToAppend);
+													$('#listOfJobs').html(htmlToAppend);
 													$('#listOfJobs').listview('refresh');
 												}
 												localStorage.LastCheckedForLoads = Date.now();
