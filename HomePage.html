@@ -6,9 +6,8 @@
         <meta name="msapplication-tap-highlight" content="no" />
         <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1" />
-        <link rel="stylesheet" type="text/css" href="css/index.css" />
-		
-			<script type="text/javascript" src="js/index.js"></script>
+        <link rel="stylesheet" type="text/css" href="css/index.css" />		
+		<script type="text/javascript" src="js/index.js"></script>
 		<link rel="stylesheet" href="jquery.mobile-1.4.5.css" />
 		<script type="text/javascript" src="jquery-1.11.2.js"></script>
 		<script type="text/javascript" src="jquery.mobile-1.4.5.js"></script>
@@ -44,16 +43,16 @@
 			<!--<div data-role="footer">
 			</div> /footer -->
 			<script type="text/javascript">				
-				document.addEventListener("deviceready", onDeviceReady, false);				
-				//onDeviceReady();
+				//document.addEventListener("deviceready", onDeviceReady, false);				
+				onDeviceReady();
 				
 
 				function onDeviceReady() {
 					localStorage.LastCheckedForLoads = 1867401600;
 					GetAvailableJobs();
-					PostLocation(); 
+					//PostLocation(); 
 					SetSelectedDriverStatus();
-					StartUpdatingLocationAndCheckingForUpdates();
+					//StartUpdatingLocationAndCheckingForUpdates();
 				}
 				
 				function StartUpdatingLocationAndCheckingForUpdates(){
@@ -83,7 +82,7 @@
 														//trigger notification for new load
 														console.log('new item');
 														var x = Date.parse(currentLoad.DateCreated);
-														window.plugin.notification.local.add({ title:  'New load has been assigned', message: 'Please launch Standard Express' });
+														//window.plugin.notification.local.add({ title:  'New load has been assigned', message: 'Please launch Standard Express' });
 													}
 													
 													$('#listOfJobs').append(htmlToAppend);
