@@ -69,9 +69,10 @@
 							url: "http://standardexpress.azurewebsites.net/api/MobileLoad/" + localStorage.getItem("DriverId"),					
 							success: function(data){												
 												console.log('Got Jobs');
+												var htmlToAppend= "";
 												for(i = 0; i<data.length;i++){											
 													var currentLoad = data[i];
-													var htmlToAppend = "<li><a href='JobDetails.html?loadId=" + currentLoad.OrderId + "'>";
+													htmlToAppend += "<li><a href='JobDetails.html?loadId=" + currentLoad.OrderId + "'>";
 													htmlToAppend += "<p class='ui-li-aside ui-li-desc'>" + currentLoad.StatusName + "</p>";
 													htmlToAppend += "<h2 class='ui-li-heading'>Load#: " + currentLoad.OrderId + " - " + currentLoad.ShipCo + "</h2>"
 													htmlToAppend += "</a></li>";			
@@ -81,12 +82,11 @@
 														console.log('new item');
 														var x = Date.parse(currentLoad.DateCreated);
 														window.plugin.notification.local.add({ title:  'New load has been assigned', message: 'Please launch Standard Express' });
-													}
-													
-													$('#listOfJobs').html(htmlToAppend);
-													$('#listOfJobs').listview('refresh');
+													}													
 												}
 												localStorage.LastCheckedForLoads = Date.now();
+												$('#listOfJobs').html(htmlToAppend);
+												$('#listOfJobs').listview('refresh');
 											},
 							fail: function(){alert('error getting jobs from server')}
 					});						

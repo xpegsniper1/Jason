@@ -62,6 +62,7 @@
 												for(i = 0; i<order.orderDetails.length;i++){
 													var currentOrder = order.orderDetails[i]; //current order 
 													$('#loadId').html(order.order.OrderId);
+													localStorage.CurrentLoadId = order.order.OrderId;
 													var hta = ""; //html to append
 													if(currentOrder.Type == 1){ //pickup																																															
 														//hta+=ls + "Load ID" + lm + order.order.OrderId + le; //order id line												
@@ -96,15 +97,17 @@
 						fail: function(){console.log('error getting job details');alert('error getting job details');}
 					});		
 				}
-				
-				
-				
-				//order details 
-				//open goes to available date, then available time
-				//close maps to stop date and stop time
-				
+
 				function SetStatus(){				
 					var selectedStatusId = $("#statusSelection option:selected").val();
+					
+					$.ajax({
+						type: "POST",
+						url: "http://standardexpress.azurewebsites.net/api/MobileDriverStatus",
+						data: {driverId:localStorage.getItem("DriverId"), StatusId:selectedStatusId, ApplicableLoadId: $('#loadId').html()},
+						success: function(){},
+						fail: function(){alert('error updating status')}
+					});	
 					
 					if (selectedStatusId == 5){
 						$.mobile.changePage("DeliveryConfirmation.html");
@@ -113,6 +116,8 @@
 					}else{
 						$.mobile.changePage("HomePage.html");
 					}
+					
+					localStorage.CurrentLoadId = "";
 				}
 			</script>
 		</div><!-- /page -->

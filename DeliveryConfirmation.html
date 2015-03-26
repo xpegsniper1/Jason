@@ -47,16 +47,16 @@
 				function PostConfirmation(){							
 					$.ajax({
 						type: "POST",
-						url: "http://standardexpress.azurewebsites.net/api/MobileVehicle",
-						data: {StatusId:14, DriverId:localStorage.getItem("DriverId")},
-						success: function(){console.log('successfully posted to server from LeavingTerminal');},
+						url: "http://standardexpress.azurewebsites.net/api/MobileDriverStatus",
+						data: {StatusId:14, DriverId:localStorage.getItem("DriverId"), ApplicableLoadId: localStorage.CurrentLoadId},
+						success: function(){console.log('successfully posted to server from LeavingTerminal'); localStorage.CurrentLoadId = "";},
 						fail: function(){console.log('error posting from LeavingTerminal');alert('error sending location');}
 					});		
 				}
 				
 				function SubmitDeliveryConfirmation(){
 					PostConfirmation();
-					$.mobile.changePage("HomePage.html");
+					$.mobile.changePage("HomePage.html");					
 				}
 				
 				LoadDetails();
