@@ -30,7 +30,7 @@
 					$.ajax({
 						type: "POST",
 						url: "http://standardexpress.azurewebsites.net/api/MobileDriverStatus",
-						data: {StatusId:7, ApplicableLoadId :currentLoadId, POD: $('#podInput').val()},
+						data: {StatusId:7, ApplicableLoadId :currentLoadId, POD: $('#podInput').val(), DriverId:localStorage.DriverId},
 						success: function(){console.log('successfully posted to server from LeavingTerminal');},
 						fail: function(){console.log('error posting from LeavingTerminal');alert('error sending location');}
 					});		

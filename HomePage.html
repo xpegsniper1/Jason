@@ -95,21 +95,21 @@
 				function SetStatus(){
 					localStorage.setItem("DriverStatusId", $('#driverStatusList').val());
 						
-					$.ajax({
-						type: "POST",
-						url: "http://standardexpress.azurewebsites.net/api/MobileDriverStatus",
-						data: {StatusId:localStorage.getItem("DriverStatusId"), driverId:localStorage.getItem("DriverId")},
-						success: function(){
-										console.log('Updated Status');
-										//If the statusid is 13 or 14 it goes to other pages however if it is anything else you only need to post DriverId and StatusId
-										if($('#driverStatusList').val() == 13){
-											$.mobile.changePage("LeavingTerminalPage.html");
-										}else if($('#driverStatusList').val() == 14){
-											$.mobile.changePage("ReturnToBasePage.html");
-										}	
-									},
-						fail: function(){alert('error updating status')}
-					});																	
+					if($('#driverStatusList').val() == 13){
+						$.mobile.changePage("LeavingTerminalPage.html");
+					}else if($('#driverStatusList').val() == 14){
+						$.mobile.changePage("ReturnToBasePage.html");
+					}else{
+						$.ajax({
+							type: "POST",
+							url: "http://standardexpress.azurewebsites.net/api/MobileDriverStatus",
+							data: {StatusId:localStorage.getItem("DriverStatusId"), driverId:localStorage.getItem("DriverId")},
+							success: function(){
+											console.log('Updated Status');
+										},
+							fail: function(){alert('error updating status')}
+						});							
+					}																												
 				}
 				
 				function PostLocation(){

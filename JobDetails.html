@@ -9,7 +9,7 @@
 			<script src="jquery.mobile-1.4.5.js"></script>
 	</head>
 	<body>
-		<div data-role="page" id="jobDetails">
+		<div data-role="page" id="jobDetails" data-dom-cache="false">
 			<div data-role="header" data-add-back-btn="true">
 				<h1>Job Detail</h1>			
 				<a href="tel:2622936283" data-icon="phone" class="ui-btn-right">Dispatch</a>
@@ -17,11 +17,11 @@
 			
 			<div role="main" class="ui-content">
 				<ul data-role="listview" data-inset="true" id="mainList">	
-					<li data-role='list-divider'>General Info</li>				
+					<!--<li data-role='list-divider'>General Info</li>				
 					<li class="ui-field-contain"><label>Load ID</label><label id="loadId"></label></li>
 					<li class="ui-field-contain"><label for="7">Pieces</label><label id="numberOfPieces"></label></li>
 					<li class="ui-field-contain"><label for="8">Weight</label><label id="totalWeight"></label></li>
-					<li class="ui-field-contain"><label for="9">Instructions</label><label id="instructionsField"></label></li>
+					<li class="ui-field-contain"><label for="9">Instructions</label><label id="instructionsField"></label></li>-->
 				</ul>
 				
 				<select id="statusSelection">
@@ -48,23 +48,31 @@
 					
 					GetJobDetails();					
 				});  
-				
+
 				var ls = "<li class='ui-field-contain'><label>"; //line start
 				var lm = "</label><label>"; //line middle
 				var le = "</label></li>"; //line end
 				
-				function GetJobDetails() {							
+				function GetJobDetails() {	
 					$.ajax({
 						type: "GET",
 						url: "http://standardexpress.azurewebsites.net/api/MobileLoadDetails/" + currentLoadId,
 						success: function(order){
-												console.log(order);
+												$('#mainList').html("");
+												
+												var header = "<li data-role='list-divider'>General Info</li>" +
+												"<li class='ui-field-contain'><label>Load ID</label><label id='loadId'></label></li>" +
+												"<li class='ui-field-contain'><label for='7'>Pieces</label><label id='numberOfPieces'></label></li>"+
+												"<li class='ui-field-contain'><label for='8'>Weight</label><label id='totalWeight'></label></li>"+
+												"<li class='ui-field-contain'><label for='9'>Instructions</label><label id='instructionsField'></label></li>";					
+												$('#mainList').html(header);
+												
 												for(i = 0; i<order.orderDetails.length;i++){
 													var currentOrder = order.orderDetails[i]; //current order 
 													$('#loadId').html(order.order.OrderId);
 													localStorage.CurrentLoadId = order.order.OrderId;
 													var hta = ""; //html to append
-													if(currentOrder.Type == 1){ //pickup																																															
+													if(currentOrder.Type == 1){													
 														//hta+=ls + "Load ID" + lm + order.order.OrderId + le; //order id line												
 														hta+="<li data-role='list-divider'>Pickup</li>";
 														hta+="<li><label><input type='checkbox' id='hasAppointment" + i + "' checked='" + currentOrder.hasAppointment + "'>Has Appointment</label></li>"; //has appointment check
@@ -76,7 +84,7 @@
 														if(currentOrder.hasAppointment == true){
 															$('#hasAppointment' +i).prop('checked', true).checkboxradio('refresh'); //disable as well?
 														}																											
-													}else{ //delivery
+													}else{
 														console.log("order delivery");	
 														hta+="<li data-role='list-divider'>Delivery</li>";
 														hta+="<li><label><input type='checkbox' id='hasAppointment" + i + "' checked='" + currentOrder.hasAppointment + "'>Has Appointment</label></li>"; //has appointment check
@@ -101,23 +109,21 @@
 				function SetStatus(){				
 					var selectedStatusId = $("#statusSelection option:selected").val();
 					
-					$.ajax({
-						type: "POST",
-						url: "http://standardexpress.azurewebsites.net/api/MobileDriverStatus",
-						data: {driverId:localStorage.getItem("DriverId"), StatusId:selectedStatusId, ApplicableLoadId: $('#loadId').html()},
-						success: function(){},
-						fail: function(){alert('error updating status')}
-					});	
-					
 					if (selectedStatusId == 5){
-						$.mobile.changePage("DeliveryConfirmation.html");
+						$.mobile.changePage("DeliveryConfirmation.html");						
 					}else if (selectedStatusId == 7 || selectedStatusId == 8){
-						$.mobile.changePage("ProofOfDelivery.html");
+						$.mobile.changePage("ProofOfDelivery.html");						
 					}else{
+						$.ajax({
+							type: "POST",
+							url: "http://standardexpress.azurewebsites.net/api/MobileDriverStatus",
+							data: {driverId:localStorage.getItem("DriverId"), StatusId:selectedStatusId, ApplicableLoadId: $('#loadId').html()},
+							success: function(){},
+							fail: function(){alert('error updating status')}
+						});	
 						$.mobile.changePage("HomePage.html");
+						localStorage.CurrentLoadId = "";
 					}
-					
-					localStorage.CurrentLoadId = "";
 				}
 			</script>
 		</div><!-- /page -->
