@@ -35,7 +35,12 @@
 				}
 				
 				function onDeviceReady() {
-					console.log("device is ready");					
+					console.log("device is ready");
+					if(localStorage.DriverId == null || localStorage.DriverId == undefined || localStorage.DriverId == ""){
+						//they need to log in. Does this require a special action?
+					}else{
+						$.mobile.changePage("HomePage.html");	
+					}
 				}
 				
 				function TryLogin(){
