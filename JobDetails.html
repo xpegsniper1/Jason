@@ -75,9 +75,9 @@
 													if(currentOrder.Type == 1){													
 														//hta+=ls + "Load ID" + lm + order.order.OrderId + le; //order id line												
 														hta+="<li data-role='list-divider'>Pickup</li>";
-														hta+="<li><label><input type='checkbox' id='hasAppointment" + i + "' checked='" + currentOrder.hasAppointment + "'>Has Appointment</label></li>"; //has appointment check
-														hta+=ls + "Open Time" + lm + currentOrder.AvailableDate.substring(0,10) + " " + currentOrder.AvailableTime + le;
-														hta+=ls + "Close Time" + lm + currentOrder.StopDate.substring(0,10) + " " + currentOrder.StopTime + le;
+														hta+="<li><label><input type='checkbox' id='hasAppointment" + i + "' " + (currentOrder.hasAppointment? "checked='true'" : "disabled") + ">Has Appointment</label></li>"; //has appointment check
+														hta+=ls + "Open Time" + lm + currentOrder.AvailableDate.substring(0,10) + " " + (currentOrder.AvailableTime == null ? "": currentOrder.AvailableTime) + le;
+														hta+=ls + "Close Time" + lm + currentOrder.StopDate.substring(0,10) + " " + (currentOrder.StopTime == null ? "" : currentOrder.StopTime) + le;
 														hta+=ls + "Location" + lm + currentOrder.Name + "<br />" + currentOrder.Address + "<br />" + currentOrder.City + ", " + currentOrder.State + " " + currentOrder.Zip + le;														
 														hta+=ls + "Contact" + lm + currentOrder.Contact + le;
 																												
@@ -87,7 +87,7 @@
 													}else{
 														console.log("order delivery");	
 														hta+="<li data-role='list-divider'>Delivery</li>";
-														hta+="<li><label><input type='checkbox' id='hasAppointment" + i + "' checked='" + currentOrder.hasAppointment + "'>Has Appointment</label></li>"; //has appointment check
+														hta+="<li><label><input type='checkbox' id='hasAppointment" + i + "' " + (currentOrder.hasAppointment? "checked='true'" : "disabled") + ">Has Appointment</label></li>"; //has appointment check
 														hta+=ls + "Open Time" + lm + currentOrder.AvailableDate.substring(0,10) + " " + currentOrder.AvailableTime + le;
 														hta+=ls + "Close Time" + lm + currentOrder.StopDate.substring(0,10) + " " + currentOrder.StopTime + le;
 														hta+=ls + "Location" + lm + currentOrder.Name + "<br />" + currentOrder.Address + "<br />" + currentOrder.City + ", " + currentOrder.State + " " + currentOrder.Zip + le;														
@@ -100,6 +100,8 @@
 												$('#numberOfPieces').text(order.order.TotalPieces);
 												$('#totalWeight').text(order.order.TotalWeight);
 												$('#instructionsField').text(order.order.Notes);
+												$('#statusSelection').val(order.order.StatusId);	
+												$('#statusSelection').selectmenu('refresh');
 												$('#mainList').listview('refresh');
 											},
 						fail: function(){console.log('error getting job details');alert('error getting job details');}

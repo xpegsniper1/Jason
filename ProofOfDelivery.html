@@ -25,7 +25,14 @@
 			<!--<div data-role="footer">
 			</div> /footer -->
 			
-			<script type="text/javascript">					
+			<script type="text/javascript">	
+				function CheckPOD(){
+					if($('#podInput').val() != ""){
+						PostConfirmation();
+					}else{
+					alert("You must enter a Proof of Delivery");
+					}
+				}
 				function PostConfirmation(){							
 					$.ajax({
 						type: "POST",
