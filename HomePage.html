@@ -72,7 +72,7 @@
 												var htmlToAppend= "";
 												for(i = 0; i<data.length;i++){											
 													var currentLoad = data[i];
-													htmlToAppend += "<li><a href='JobDetails.html?loadId=" + currentLoad.OrderId + "'>";
+													htmlToAppend += "<li><a onclick='cancelStuff();' href='JobDetails.html?loadId=" + currentLoad.OrderId + "'>";
 													htmlToAppend += "<p class='ui-li-aside ui-li-desc'>" + currentLoad.StatusName + "</p>";
 													htmlToAppend += "<h2 class='ui-li-heading'>Load#: " + currentLoad.OrderId + " - " + currentLoad.ShipCo + "</h2>"
 													htmlToAppend += "</a></li>";			
@@ -150,10 +150,10 @@
 					});
 				}		
 
-				$('#listOfJobs>li>a').on('click', function(){
+				function cancelStuff(){
 					clearInterval(localStorage.CurrentLocationIntervalId);
 					clearInterval(localStorage.CurrentJobUpdateIntervalId);
-				});
+				};
 			</script>
 		</div><!-- /page -->			
     </body>	
