@@ -78,7 +78,6 @@
 													htmlToAppend += "<h2 class='ui-li-heading'>Load#: " + currentLoad.OrderId + " - " + currentLoad.ShipCo + "</h2>"
 													htmlToAppend += "</a></li>";			
 													console.log("parsed value of array position " + i + " = " + Date.parse(currentLoad.DateCreated));
-													//if(Date.parse(currentLoad.DateCreated) > localStorage.LastCheckedForLoads){
 													
 													if(currentLoad.StatusId == 2 && doJasonRingYa == false){
 														doJasonRingYa = true;
@@ -157,6 +156,7 @@
 				function cancelStuff(){
 					clearInterval(localStorage.CurrentLocationIntervalId);
 					clearInterval(localStorage.CurrentJobUpdateIntervalId);
+					console.log('intervals cleared');
 				};
 			</script>
 		</div><!-- /page -->			
