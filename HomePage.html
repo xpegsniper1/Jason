@@ -70,6 +70,7 @@
 							success: function(data){												
 												console.log('Got Jobs');
 												var htmlToAppend= "";
+												var doJasonRingYa = false;
 												for(i = 0; i<data.length;i++){											
 													var currentLoad = data[i];
 													htmlToAppend += "<li><a onclick='cancelStuff();' href='JobDetails.html?loadId=" + currentLoad.OrderId + "'>";
@@ -77,7 +78,10 @@
 													htmlToAppend += "<h2 class='ui-li-heading'>Load#: " + currentLoad.OrderId + " - " + currentLoad.ShipCo + "</h2>"
 													htmlToAppend += "</a></li>";			
 													console.log("parsed value of array position " + i + " = " + Date.parse(currentLoad.DateCreated));
-													if(Date.parse(currentLoad.DateCreated) > localStorage.LastCheckedForLoads){
+													//if(Date.parse(currentLoad.DateCreated) > localStorage.LastCheckedForLoads){
+													
+													if(currentLoad.StatusId == 2 && doJasonRingYa == false){
+														doJasonRingYa = true;
 														//trigger notification for new load
 														console.log('new item');
 														var x = Date.parse(currentLoad.DateCreated);
