@@ -43,8 +43,11 @@
 			<!--<div data-role="footer">
 			</div> /footer -->
 			<script type="text/javascript">				
-				document.addEventListener("deviceready", onDeviceReady, false);				
+				//document.addEventListener("deviceready", onDeviceReady, false);				
 				//onDeviceReady();				
+				$(document).ready(function() { 
+					onDeviceReady();
+				});
 
 				function onDeviceReady() {
 					localStorage.LastCheckedForLoads = 1867401600;
