@@ -148,7 +148,12 @@
 						//repeat:  'weekly',
 						date:    _10_seconds_from_now
 					});
-				}							
+				}		
+
+				$('#listOfJobs>li>a').on('click', function(){
+					clearInterval(localStorage.CurrentLocationIntervalId);
+					clearInterval(localStorage.CurrentJobUpdateIntervalId);
+				});
 			</script>
 		</div><!-- /page -->			
     </body>	
